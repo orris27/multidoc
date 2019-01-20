@@ -2,5 +2,5 @@
 
 ### requirement
 
-+ java: 11.0.2
++ java: 1.8.0_181
 
