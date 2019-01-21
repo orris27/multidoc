@@ -62,9 +62,15 @@ public class Main extends Application {
 
         PasswordField pwdBox = new PasswordField();
         grid.add(pwdBox, 1, 2);
+
+        Button btnSignup = new Button("Sign up");
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_LEFT);
+        hbBtn.getChildren().add(btnSignup);
+//        grid.add(hbBtn, 1, 4);
         //添加提交按钮
         Button btn = new Button("Log in");
-        HBox hbBtn = new HBox(10);
+//        HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
         grid.add(hbBtn, 1, 4);
@@ -79,9 +85,21 @@ public class Main extends Application {
 
         final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
+        btnSignup.setOnAction(event -> {
+            String username = usernameBox.getText();
+            String pwd = pwdBox.getText();
+            if(username.length() == 0 || pwd.length() == 0) {
+                return;
+            }
+            SocketClient.getSocketClient().signup(username, pwd);
+
+        });
         btn.setOnAction(event -> {
             String username = usernameBox.getText();
             String pwd = pwdBox.getText();
+            if(username.length() == 0 || pwd.length() == 0) {
+                return;
+            }
             SocketClient.getSocketClient().login(username, pwd);
 
 

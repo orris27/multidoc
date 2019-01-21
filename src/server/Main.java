@@ -20,14 +20,14 @@ public class Main {
 
 
     // JDBC driver name and database URL
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/multidoc";
-
+    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    private static final String DB_URL = "jdbc:mysql://localhost/multidoc";
     //  Database credentials
-    static final String USER = "root";
-    static final String PASS = "serena2ash";
+    private static final String USER = "root";
+    private static final String PASS = "serena2ash";
 
 
+    private static int nextId = 0;
     private static final int PORT = 2333;
     private static Connection conn = null;
     private static Statement stmt = null;
@@ -40,6 +40,19 @@ public class Main {
             if(d.getId()==id) return d;
         }
         return null;
+    }
+    private static boolean addUser(int id, String username, String pwd){
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate("insert into users values("+id+", '"+username+"', '"+pwd+"')");
+            users.add(new User(id, username, pwd));
+            return true;
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+
+
     }
     private static User getUser(String username){
         for (User d: users){
@@ -130,12 +143,14 @@ public class Main {
 
         try{
             stmt = conn.createStatement();
-            ResultSet res = stmt.executeQuery("select * from users where username = 'admin'");
+            ResultSet res = stmt.executeQuery("select * from users");
             while(res.next()){
                 int id = res.getInt("id");
                 String username = res.getString("username");
                 String password = res.getString("password");
                 users.add(new User(id, username, password));
+                if(nextId <= id)
+                    nextId = id + 1;
             }
 
         } catch(Exception e) {
@@ -210,21 +225,9 @@ public class Main {
             }
         }
         private void handleSignup(Login login) throws IOException{
-            User user = getUser(login.getUsername());
-            if (user == null){
-                return;
-            }else{
-                if(user.checkPassword(login.getPassword())){
-                    userForThisSocket=user;
-                    userToWriterMap.put(userForThisSocket,out);
-                    out.writeObject(new SocketData<>(
-                            "updateUser",
-                            user
-                    ));
-                    updateDocuments();
-                }
-            }
+            addUser(nextId++, login.getUsername(), login.getPassword());
         }
+
 
         private void handleLogin(Login login) throws IOException{
             User user = getUser(login.getUsername());

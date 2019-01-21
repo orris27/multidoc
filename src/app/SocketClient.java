@@ -65,6 +65,17 @@ public class SocketClient {
         }
         return true;
     }
+    public void signup(String username, String password) {
+        try {
+            outputStream.writeObject(new SocketData<>(
+                    "signup",
+                    new Login(username, password)
+            ));
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
     public void login(String username, String password) {
         try {
