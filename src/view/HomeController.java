@@ -7,9 +7,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import app.Main;
-import model.DocumentRow;
 import utils.Document;
 import utils.User;
+import utils.DocumentRow;
 
 import java.util.ArrayList;
 import java.util.Optional;
