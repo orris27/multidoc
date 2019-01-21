@@ -56,12 +56,6 @@ public class MenuController {
     private void initialize() {
         passageRowList.addListener((ListChangeListener<PassageRow>) change -> {
             documentTable.setItems(passageRowList);
-//            while (change.next()) {
-//                if (change.wasUpdated()) {
-//                    SomeObservableClass changedItem = observableList.get(change.getFrom());
-//                    System.out.println("ListChangeListener item: " + changedItem);
-//                }
-//            }
         });
         creatorColumn.setCellValueFactory(cellData -> cellData.getValue().creatorProperty());
         titleColumn.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
@@ -81,7 +75,6 @@ public class MenuController {
 
     @FXML
     private void loginButtonClicked(){
-//        usernameLabel.setText("test login");
         TextInputDialog dialog;
         Optional<String> result;
         dialog = new TextInputDialog("");
@@ -110,17 +103,7 @@ public class MenuController {
 
     }
 
-//    @FXML
-//    public void handlePasswordError(){
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setTitle("Information Dialog");
-//        alert.setHeaderText("Look, an Information Dialog");
-//        alert.setContentText("I have a great message for you!");
-//
-//        alert.showAndWait();
-//
-//
-//    }
+
 
     @FXML
     private void addDocumentButtonClicked(){
