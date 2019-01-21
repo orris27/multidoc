@@ -252,27 +252,27 @@ public class Main {
                 try {
                     while (true) {
                         System.out.println("going to read data");
-                        SocketDataBase data = (SocketDataBase) in.readObject();
+                        SocketMessageBase data = (SocketMessageBase) in.readObject();
                         System.out.println(data);
                         if(data==null) break;
                         switch (data.getMeta()){
                             case "signup":
-                                handleSignup(((SocketData<Login>)data).getData());
+                                handleSignup(((SocketMessage<Login>)data).getData());
                                 break;
                             case "login":
-                                handleLogin(((SocketData<Login>)data).getData());
+                                handleLogin(((SocketMessage<Login>)data).getData());
                                 break;
                             case "addDocument":
-                                handleAddDocument(((SocketData<String >)data).getData());
+                                handleAddDocument(((SocketMessage<String >)data).getData());
                                 break;
                             case "startEditDocument":
-                                handleStartEditDocument(((SocketData<Integer>)data).getData());
+                                handleStartEditDocument(((SocketMessage<Integer>)data).getData());
                                 break;
                             case "stopEditDocument":
                                 handleStopEditDocument();
                                 break;
                             case "editDocument":
-                                handleEditDocument(((SocketData<String>)data).getData());
+                                handleEditDocument(((SocketMessage<String>)data).getData());
                                 break;
                         }
                     }
@@ -310,7 +310,7 @@ public class Main {
                 if(user.checkPassword(login.getPassword())){
                     userForThisSocket=user;
                     userToWriterMap.put(userForThisSocket,out);
-                    out.writeObject(new SocketData<>(
+                    out.writeObject(new SocketMessage<>(
                             "updateUser",
                             user
                     ));
@@ -329,7 +329,7 @@ public class Main {
         private void handleStartEditDocument(Integer id)throws IOException{
             Document document=getDocument(id);
             userToDocumentMap.put(userForThisSocket,document);
-            out.writeObject(new SocketData<>(
+            out.writeObject(new SocketMessage<>(
                     "updateDocument",
                     document.getContent()
             ));
@@ -354,7 +354,7 @@ public class Main {
                     ObjectOutputStream writer=userToWriterMap.get(entry.getKey());
                     if(writer!=out){
                         // write them again completely
-                        writer.writeObject(new SocketData<>(
+                        writer.writeObject(new SocketMessage<>(
                                 "updateDocument",
                                 document.getContent()
                         ));
@@ -366,7 +366,7 @@ public class Main {
         private void updateDocuments() throws IOException{
             System.out.println("update documents");
             for(ObjectOutputStream out: writers){
-                out.writeObject(new SocketData<>(
+                out.writeObject(new SocketMessage<>(
                         "updateDocuments",
                         new ArrayList<>(documents)
                 ));

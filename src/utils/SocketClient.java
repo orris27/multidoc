@@ -2,7 +2,6 @@ package utils;
 
 
 import javafx.application.Platform;
-import utils.*;
 import view.DocController;
 import view.HomeController;
 
@@ -64,7 +63,7 @@ public class SocketClient {
     }
     public void signup(String username, String password) {
         try {
-            outputStream.writeObject(new SocketData<>(
+            outputStream.writeObject(new SocketMessage<>(
                     "signup",
                     new Login(username, password)
             ));
@@ -76,7 +75,7 @@ public class SocketClient {
 
     public void login(String username, String password) {
         try {
-            outputStream.writeObject(new SocketData<>(
+            outputStream.writeObject(new SocketMessage<>(
                     "login",
                     new Login(username, password)
             ));
@@ -88,7 +87,7 @@ public class SocketClient {
 
     public void addDocument(String title){
         try{
-            outputStream.writeObject(new SocketData<>(
+            outputStream.writeObject(new SocketMessage<>(
                     "addDocument",
                     title
             ));
@@ -99,7 +98,7 @@ public class SocketClient {
 
     public void startDocumentEditing(int id){
         try{
-            outputStream.writeObject(new SocketData<>(
+            outputStream.writeObject(new SocketMessage<>(
                     "startEditDocument",
                     new Integer(id)
             ));
@@ -110,7 +109,7 @@ public class SocketClient {
 
     public void stopDocumentEditing(){
         try{
-            outputStream.writeObject(new SocketData<>(
+            outputStream.writeObject(new SocketMessage<>(
                     "stopEditDocument",
                     null
             ));
@@ -121,7 +120,7 @@ public class SocketClient {
 
     public void editDocument(String content){
         try{
-            outputStream.writeObject(new SocketData<>(
+            outputStream.writeObject(new SocketMessage<>(
                     "editDocument",
                     content
             ));
@@ -147,7 +146,7 @@ public class SocketClient {
         public void run(){
             try {
                 while (true){
-                    SocketDataBase data = (SocketDataBase) in.readObject();
+                    SocketMessageBase data = (SocketMessageBase) in.readObject();
                     System.out.println("Data received: "+data.getMeta());
                     switch (data.getMeta()){
                         case "updateUser":
@@ -165,26 +164,26 @@ public class SocketClient {
                 e.printStackTrace();
             }
         }
-        private void handleError(SocketDataBase data){
-            String msg =((SocketData<String>)data).getData();
+        private void handleError(SocketMessageBase data){
+            String msg =((SocketMessage<String>)data).getData();
 //            if (msg.equals("incorrect")) {
 //                Platform.runLater(()->homeController.handlePasswordError());
 //            }
 
 
         }
-        private void handleUpdateUser(SocketDataBase data){
+        private void handleUpdateUser(SocketMessageBase data){
             isLogin = true;
-            user=((SocketData<User>)data).getData();
+            user=((SocketMessage<User>)data).getData();
             Platform.runLater(()->homeController.updateUser(user));
         }
-        private void handleUpdateDocuments(SocketDataBase data){
-            ArrayList<Document> documents=((SocketData<ArrayList<Document>>)data).getData();
+        private void handleUpdateDocuments(SocketMessageBase data){
+            ArrayList<Document> documents=((SocketMessage<ArrayList<Document>>)data).getData();
             System.out.println(documents.size());
             homeController.updateDocumentList(documents);
         }
-        private void handleUpdateDocument(SocketDataBase data){
-            String content=((SocketData<String>)data).getData();
+        private void handleUpdateDocument(SocketMessageBase data){
+            String content=((SocketMessage<String>)data).getData();
             Platform.runLater(()->{
                 System.out.println("document update value:");
                 System.out.println(content);

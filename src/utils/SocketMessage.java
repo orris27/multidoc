@@ -1,12 +1,12 @@
 package utils;
 
 
-public class SocketData<T> extends SocketDataBase {
+public class SocketMessage<T> extends SocketMessageBase {
     private T data;
 
-    private SocketData(){}
+    private SocketMessage(){}
 
-    public SocketData(String meta, T data){
+    public SocketMessage(String meta, T data){
         this.meta=meta;
         this.data=data;
     }
