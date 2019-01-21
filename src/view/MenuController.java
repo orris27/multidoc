@@ -25,6 +25,8 @@ public class MenuController {
     @FXML
     private Button loginButton;
     @FXML
+    private Button logoutButton;
+    @FXML
     private Label usernameLabel;
     @FXML
     private Button addDocumentButton;
@@ -104,6 +106,13 @@ public class MenuController {
     }
 
 
+    @FXML
+    private void logoutButtonClicked(){
+            usernameLabel.setText("Please login");
+            loginButton.setVisible(true);
+            logoutButton.setVisible(false);
+            addDocumentButton.setVisible(false);
+    }
 
     @FXML
     private void addDocumentButtonClicked(){
@@ -130,10 +139,12 @@ public class MenuController {
             usernameLabel.setText("Please login");
             loginButton.setVisible(true);
             addDocumentButton.setVisible(false);
+            logoutButton.setVisible(false);
         }else{
             usernameLabel.setText(user.getUsername());
             loginButton.setVisible(false);
             addDocumentButton.setVisible(true);
+            logoutButton.setVisible(true);
         }
     }
 
