@@ -5,13 +5,13 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class DocumentRow {
+public class PassageRow {
 
     private final IntegerProperty id;
     private final StringProperty creator;
     private final StringProperty title;
 
-    public DocumentRow(int id, String creator, String title) {
+    public PassageRow(int id, String creator, String title) {
         this.id = new SimpleIntegerProperty(id);
         this.creator = new SimpleStringProperty(creator);
         this.title = new SimpleStringProperty(title);

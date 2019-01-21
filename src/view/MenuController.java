@@ -9,19 +9,19 @@ import javafx.scene.control.*;
 import client.Main;
 import utils.Document;
 import utils.User;
-import utils.DocumentRow;
+import utils.PassageRow;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 
-public class HomeController {
+public class MenuController {
     @FXML
-    private TableView<DocumentRow> documentTable;
+    private TableView<PassageRow> documentTable;
     @FXML
-    private TableColumn<DocumentRow, String> creatorColumn;
+    private TableColumn<PassageRow, String> creatorColumn;
     @FXML
-    private TableColumn<DocumentRow, String> titleColumn;
+    private TableColumn<PassageRow, String> titleColumn;
     @FXML
     private Button loginButton;
     @FXML
@@ -30,10 +30,10 @@ public class HomeController {
     private Button addDocumentButton;
 
 
-    private ObservableList<DocumentRow> documentRowList = FXCollections.observableArrayList();
+    private ObservableList<PassageRow> passageRowList = FXCollections.observableArrayList();
 
-    public ObservableList<DocumentRow> getDocumentRowList() {
-        return documentRowList;
+    public ObservableList<PassageRow> getPassageRowList() {
+        return passageRowList;
     }
 
 
@@ -44,7 +44,7 @@ public class HomeController {
      * The constructor.
      * The constructor is called before the initialize() method.
      */
-    public HomeController() {
+    public MenuController() {
         System.out.println("constructor of controller");
     }
 
@@ -54,8 +54,8 @@ public class HomeController {
      */
     @FXML
     private void initialize() {
-        documentRowList.addListener((ListChangeListener<DocumentRow>) change -> {
-            documentTable.setItems(documentRowList);
+        passageRowList.addListener((ListChangeListener<PassageRow>) change -> {
+            documentTable.setItems(passageRowList);
 //            while (change.next()) {
 //                if (change.wasUpdated()) {
 //                    SomeObservableClass changedItem = observableList.get(change.getFrom());
@@ -66,12 +66,12 @@ public class HomeController {
         creatorColumn.setCellValueFactory(cellData -> cellData.getValue().creatorProperty());
         titleColumn.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
         documentTable.setRowFactory(tv -> {
-            TableRow<DocumentRow> row = new TableRow<>();
+            TableRow<PassageRow> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    DocumentRow documentRow = row.getItem();
-                    this.mainApp.openDocument(documentRow.getId());
-                    System.out.println(documentRow.getTitle());
+                    PassageRow passageRow = row.getItem();
+                    this.mainApp.openDocument(passageRow.getId());
+                    System.out.println(passageRow.getTitle());
                 }
             });
             return row ;
@@ -139,7 +139,7 @@ public class HomeController {
     public void setMainApp(Main mainApp) {
         this.mainApp = mainApp;
         // Add observable list data to the table
-        documentTable.setItems(getDocumentRowList());
+        documentTable.setItems(getPassageRowList());
     }
 
     public void updateUser(User user){
@@ -155,9 +155,9 @@ public class HomeController {
     }
 
     public void updateDocumentList(ArrayList<Document> documents){
-        documentRowList.clear();
+        passageRowList.clear();
         for (Document document: documents) {
-            documentRowList.add(new DocumentRow(document.getId(), document.getCreator().getUsername(), document.getTitle()));
+            passageRowList.add(new PassageRow(document.getId(), document.getCreator().getUsername(), document.getTitle()));
         }
     }
 

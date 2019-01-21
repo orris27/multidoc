@@ -16,8 +16,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import view.DocController;
-import view.HomeController;
+import view.DocumentController;
+import view.MenuController;
 
 import java.io.IOException;
 import javafx.scene.control.Label;
@@ -77,9 +77,9 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader();
         // store current stage
-        loader.setLocation(getClass().getResource("../view/Home.fxml"));
+        loader.setLocation(getClass().getResource("../view/Menu.fxml"));
         Parent root = loader.load();
-        HomeController controller = loader.getController();
+        MenuController controller = loader.getController();
         // assign the controller to the socket
         SocketClient.getSocketClient().setHomeController(controller);
 
@@ -114,27 +114,6 @@ public class Main extends Application {
 
 
 
-        // loader the node in the scene
-
-//
-//
-//
-//
-//        loader.setLocation(Main.class.getResource("../view/Home.fxml"));
-//        root = loader.load();
-//
-//        // show stage
-//        primaryStage.setTitle("Multidoc");
-//        primaryStage.setScene(new Scene(root, 600, 400));
-//        primaryStage.show();
-
-//        // store current stage
-//        this.stage = primaryStage;
-//        loader.setLocation(getClass().getResource("../view/Home.fxml"));
-//        HomeController controller = loader.getController();
-//        // assign the controller to the socket
-//        SocketClient.getSocketClient().setHomeController(controller);
-//        controller.setMainApp(this);
     }
 
 
@@ -145,7 +124,7 @@ public class Main extends Application {
     public void openDocument(int id){
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("../view/Doc.fxml"));
+            loader.setLocation(Main.class.getResource("../view/Document.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
@@ -155,10 +134,10 @@ public class Main extends Application {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-            DocController controller = loader.getController();
+            DocumentController controller = loader.getController();
             controller.setStage(dialogStage);
             controller.initDocument(id);
-            SocketClient.getSocketClient().setDocController(controller);
+            SocketClient.getSocketClient().setDocumentController(controller);
             dialogStage.showAndWait();
 
         } catch (IOException e) {

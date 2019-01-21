@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-public class DocController {
+public class DocumentController {
     @FXML
     private TextArea contentEditor;
 

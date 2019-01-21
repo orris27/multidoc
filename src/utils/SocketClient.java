@@ -2,8 +2,8 @@ package utils;
 
 
 import javafx.application.Platform;
-import view.DocController;
-import view.HomeController;
+import view.DocumentController;
+import view.MenuController;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -24,15 +24,15 @@ public class SocketClient {
 
     private User user;
 
-    private HomeController homeController;
-    public void setHomeController(HomeController homeController) {
+    private MenuController homeController;
+    public void setHomeController(MenuController homeController) {
         System.out.println("set home controller");
         this.homeController = homeController;
     }
 
-    private DocController docController;
-    public void setDocController(DocController docController){
-        this.docController=docController;
+    private DocumentController documentController;
+    public void setDocumentController(DocumentController documentController){
+        this.documentController = documentController;
     }
 
     public boolean getLoginState (){
@@ -187,7 +187,7 @@ public class SocketClient {
             Platform.runLater(()->{
                 System.out.println("document update value:");
                 System.out.println(content);
-                docController.setText(content);
+                documentController.setText(content);
             });
         }
     }
