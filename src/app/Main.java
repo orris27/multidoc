@@ -73,20 +73,30 @@ public class Main extends Application {
         // store current stage
         loader.setLocation(getClass().getResource("../view/Home.fxml"));
         Parent root = loader.load();
+        HomeController controller = loader.getController();
+        // assign the controller to the socket
+        SocketClient.getSocketClient().setHomeController(controller);
 
-        System.out.println(this);
+        final Text actiontarget = new Text();
+        grid.add(actiontarget, 1, 6);
         btn.setOnAction(event -> {
             String username = usernameBox.getText();
             String pwd = pwdBox.getText();
             SocketClient.getSocketClient().login(username, pwd);
 
-            HomeController controller = loader.getController();
-            // assign the controller to the socket
-            SocketClient.getSocketClient().setHomeController(controller);
-            System.out.println(this);
+
             primaryStage.setScene(new Scene(root, 600, 400));
             this.stage = primaryStage;
             controller.setMainApp(this);
+//            if (SocketClient.getSocketClient().getLoginState()) {
+//                primaryStage.setScene(new Scene(root, 600, 400));
+//                this.stage = primaryStage;
+//                controller.setMainApp(this);
+//            }
+//            else {
+//                actiontarget.setFill(Color.FIREBRICK);
+//                actiontarget.setText("error");
+//            }
         });
 
         primaryStage.setTitle("Login");

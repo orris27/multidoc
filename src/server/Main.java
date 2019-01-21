@@ -65,6 +65,7 @@ public class Main {
     }
 
     private static void initData(){
+
         users.add(new User(1, "john", "123"));
         users.add(new User(2, "lucy", "456"));
     }
@@ -136,9 +137,10 @@ public class Main {
         private void handleLogin(Login login) throws IOException{
             User user = getUser(login.getUsername());
             if (user==null){
-//                System.out.println("write to out");
-//                out.writeBoolean(false);
-//                out.flush();
+//                out.writeObject(new SocketData<>(
+//                        "error",
+//                        "incorrect"
+//                ));
                 return;
             }else{
                 if(user.checkPassword(login.getPassword())){
@@ -150,6 +152,13 @@ public class Main {
                     ));
                     updateDocuments();
                 }
+//                else {
+//                    out.writeObject(new SocketData<>(
+//                            "error",
+//                            "incorrect"
+//                    ));
+//
+//                }
             }
         }
         private void handleAddDocument(String title) throws IOException{

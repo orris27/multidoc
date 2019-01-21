@@ -3,6 +3,7 @@ package app;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import proto.*;
 import view.DocController;
 import view.HomeController;
@@ -23,6 +24,7 @@ public class SocketClient {
     private ObjectInputStream inputStream = null;
     private ObjectOutputStream outputStream = null;
     private boolean isConnected = false;
+    private boolean isLogin = false;
 
     private User user;
 
@@ -35,6 +37,10 @@ public class SocketClient {
     private DocController docController;
     public void setDocController(DocController docController){
         this.docController=docController;
+    }
+
+    public boolean getLoginState (){
+        return isLogin;
     }
 
     private SocketClient(){
@@ -145,6 +151,9 @@ public class SocketClient {
                         case "updateDocument":
                             handleUpdateDocument(data);
                             break;
+//                        case "error":
+//                            handleError(data);
+//                            break;
                     }
 //                    System.out.println("Object received = " + data.getData());
 //                    System.out.println(data.getData().a);
@@ -154,7 +163,16 @@ public class SocketClient {
                 e.printStackTrace();
             }
         }
+        private void handleError(SocketDataBase data){
+            String msg =((SocketData<String>)data).getData();
+//            if (msg.equals("incorrect")) {
+//                Platform.runLater(()->homeController.handlePasswordError());
+//            }
+
+
+        }
         private void handleUpdateUser(SocketDataBase data){
+            isLogin = true;
             user=((SocketData<User>)data).getData();
             Platform.runLater(()->homeController.updateUser(user));
         }
