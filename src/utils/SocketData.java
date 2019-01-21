@@ -1,4 +1,4 @@
-package proto;
+package utils;
 
 
 public class SocketData<T> extends SocketDataBase {

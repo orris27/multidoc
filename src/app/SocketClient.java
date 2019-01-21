@@ -1,14 +1,11 @@
 package app;
 
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import proto.*;
+import utils.*;
 import view.DocController;
 import view.HomeController;
 
-import javax.swing.text.StyledEditorKit;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

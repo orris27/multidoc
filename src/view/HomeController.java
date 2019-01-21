@@ -8,8 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import app.Main;
 import model.DocumentRow;
-import proto.Document;
-import proto.User;
+import utils.Document;
+import utils.User;
 
 import java.util.ArrayList;
 import java.util.Optional;
