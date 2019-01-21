@@ -22,7 +22,7 @@ public class Main {
     private static final String DB_URL = "jdbc:mysql://localhost/multidoc";
     //  Database credentials
     private static final String USER = "root";
-    private static final String PASS = "serena2ash";
+    private static final String PASS = "your_password";
 
 
     private static int nextId = 0;
