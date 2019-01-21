@@ -2,6 +2,7 @@ package server;
 
 import proto.*;
 
+import javax.xml.stream.FactoryConfigurationError;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -135,6 +136,9 @@ public class Main {
         private void handleLogin(Login login) throws IOException{
             User user = getUser(login.getUsername());
             if (user==null){
+//                System.out.println("write to out");
+//                out.writeBoolean(false);
+//                out.flush();
                 return;
             }else{
                 if(user.checkPassword(login.getPassword())){

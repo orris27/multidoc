@@ -1,11 +1,13 @@
 package app;
 
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Platform;
 import proto.*;
 import view.DocController;
 import view.HomeController;
 
+import javax.swing.text.StyledEditorKit;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,6 +50,15 @@ public class SocketClient {
             e.printStackTrace();
         }
     }
+    public Boolean readBoolean() {
+        try{
+            Boolean a =  inputStream.readBoolean();
+            return a;
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return true;
+    }
 
     public void login(String username, String password) {
         try {
@@ -55,6 +66,7 @@ public class SocketClient {
                     "login",
                     new Login(username, password)
             ));
+
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -109,6 +121,7 @@ public class SocketClient {
         if(socketClient==null){
             socketClient = new SocketClient();
         }
+
         return socketClient;
     }
 

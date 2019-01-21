@@ -80,8 +80,6 @@ public class Main extends Application {
             String pwd = pwdBox.getText();
             SocketClient.getSocketClient().login(username, pwd);
 
-            System.out.println(usernameBox.getText());
-            System.out.println(pwdBox.getText());
             HomeController controller = loader.getController();
             // assign the controller to the socket
             SocketClient.getSocketClient().setHomeController(controller);
