@@ -88,15 +88,6 @@ public class Main extends Application {
             primaryStage.setScene(new Scene(root, 600, 400));
             this.stage = primaryStage;
             controller.setMainApp(this);
-//            if (SocketClient.getSocketClient().getLoginState()) {
-//                primaryStage.setScene(new Scene(root, 600, 400));
-//                this.stage = primaryStage;
-//                controller.setMainApp(this);
-//            }
-//            else {
-//                actiontarget.setFill(Color.FIREBRICK);
-//                actiontarget.setText("error");
-//            }
         });
 
         primaryStage.setTitle("Login");

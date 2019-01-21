@@ -1,6 +1,9 @@
 package server;
 
+import com.sun.javafx.applet.ExperimentalExtensions;
 import proto.*;
+
+
 
 import javax.xml.stream.FactoryConfigurationError;
 import java.io.*;
@@ -9,13 +12,28 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import redis.clients.jedis.Jedis;
+import java.sql.*;
 
 
 public class Main {
 
+
+    // JDBC driver name and database URL
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost/multidoc";
+
+    //  Database credentials
+    static final String USER = "root";
+    static final String PASS = "serena2ash";
+
+
     private static final int PORT = 2333;
+    private static Connection conn = null;
+    private static Statement stmt = null;
 
 
+    private static Jedis jedis;
     private static HashSet<User> users = new HashSet<>();
     private static User getUser(int id){
         for (User d: users){
@@ -51,7 +69,46 @@ public class Main {
      * The appplication main method, which just listens on a port and
      * spawns handler threads.
      */
+    private static void storeRedis(String key, Object value) {
+        try {
+
+            //然后通过 jedis 对象就可以调用 redis 支持的命令了，比如
+            jedis.set("hello","world");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
     public static void main(String[] args) throws Exception {
+        //生成一个Jedis对象，这个对象负责和指定Redis实例进行通信
+        jedis = new Jedis("127.0.0.1",6379);
+
+
+        try{
+            Class.forName(JDBC_DRIVER);
+            System.out.println("driver ok");
+        } catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+        try{
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            System.out.println("connect to mysql success");
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        try{
+            stmt = conn.createStatement();
+            stmt.executeQuery("select * from users");
+        } catch(Exception e) {
+            String sql = "create table users(id int, username varchar(20), password varchar(20), primary key(id))";
+            stmt.executeUpdate(sql);
+            stmt.executeUpdate("insert into users values(0, 'admin', 'admin')");
+        }
+
+
         initData();
         System.out.println("The server is running.");
         ServerSocket listener = new ServerSocket(PORT);
@@ -61,13 +118,29 @@ public class Main {
             }
         } finally {
             listener.close();
+            if (jedis != null) {
+                //使用完之后关闭连接
+                jedis.close();
+            }
         }
     }
 
     private static void initData(){
 
-        users.add(new User(1, "john", "123"));
-        users.add(new User(2, "lucy", "456"));
+
+        try{
+            stmt = conn.createStatement();
+            ResultSet res = stmt.executeQuery("select * from users where username = 'admin'");
+            while(res.next()){
+                int id = res.getInt("id");
+                String username = res.getString("username");
+                String password = res.getString("password");
+                users.add(new User(id, username, password));
+            }
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -95,6 +168,9 @@ public class Main {
                         System.out.println(data);
                         if(data==null) break;
                         switch (data.getMeta()){
+                            case "signup":
+                                handleSignup(((SocketData<Login>)data).getData());
+                                break;
                             case "login":
                                 handleLogin(((SocketData<Login>)data).getData());
                                 break;
@@ -133,14 +209,9 @@ public class Main {
                 }
             }
         }
-
-        private void handleLogin(Login login) throws IOException{
+        private void handleSignup(Login login) throws IOException{
             User user = getUser(login.getUsername());
-            if (user==null){
-//                out.writeObject(new SocketData<>(
-//                        "error",
-//                        "incorrect"
-//                ));
+            if (user == null){
                 return;
             }else{
                 if(user.checkPassword(login.getPassword())){
@@ -152,13 +223,23 @@ public class Main {
                     ));
                     updateDocuments();
                 }
-//                else {
-//                    out.writeObject(new SocketData<>(
-//                            "error",
-//                            "incorrect"
-//                    ));
-//
-//                }
+            }
+        }
+
+        private void handleLogin(Login login) throws IOException{
+            User user = getUser(login.getUsername());
+            if (user==null){
+                return;
+            }else{
+                if(user.checkPassword(login.getPassword())){
+                    userForThisSocket=user;
+                    userToWriterMap.put(userForThisSocket,out);
+                    out.writeObject(new SocketData<>(
+                            "updateUser",
+                            user
+                    ));
+                    updateDocuments();
+                }
             }
         }
         private void handleAddDocument(String title) throws IOException{
