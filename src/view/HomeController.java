@@ -1,12 +1,12 @@
 package view;
 
-import app.SocketClient;
+import utils.SocketClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import app.Main;
+import client.Main;
 import utils.Document;
 import utils.User;
 import utils.DocumentRow;

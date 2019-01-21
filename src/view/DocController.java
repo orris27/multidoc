@@ -1,6 +1,6 @@
 package view;
 
-import app.SocketClient;
+import utils.SocketClient;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
