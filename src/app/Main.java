@@ -19,16 +19,23 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        // loader the node in the scene
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("../view/Home.fxml"));
         Parent root = loader.load();
 
+        // show stage
         primaryStage.setTitle("Multidoc");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
-        this.stage =primaryStage;
+
+
+
+        // store current stage
+        this.stage = primaryStage;
         loader.setLocation(getClass().getResource("../view/Home.fxml"));
         HomeController controller = loader.getController();
+        // assign the controller to the socket
         SocketClient.getSocketClient().setHomeController(controller);
         controller.setMainApp(this);
     }

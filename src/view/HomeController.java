@@ -107,6 +107,7 @@ public class HomeController {
             return;
         }
         SocketClient.getSocketClient().login(username,password);
+
     }
 
     @FXML

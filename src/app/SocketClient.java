@@ -16,7 +16,7 @@ public class SocketClient {
     private static SocketClient socketClient = null;
 
     private String host = "127.0.0.1";
-    private int port = 9001;
+    private int port = 2333;
     private Socket socket = null;
     private ObjectInputStream inputStream = null;
     private ObjectOutputStream outputStream = null;

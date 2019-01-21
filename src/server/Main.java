@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 public class Main {
 
-    private static final int PORT = 9001;
+    private static final int PORT = 2333;
 
 
     private static HashSet<User> users = new HashSet<>();
@@ -169,9 +169,12 @@ public class Main {
             document.setContent(content);
             System.out.println(content);
             for(HashMap.Entry<User,Document> entry: userToDocumentMap.entrySet()){
+                // if it is the document modified
                 if(entry.getValue()==document){
+                    // get the writer of the user
                     ObjectOutputStream writer=userToWriterMap.get(entry.getKey());
                     if(writer!=out){
+                        // write them again completely
                         writer.writeObject(new SocketData<>(
                                 "updateDocument",
                                 document.getContent()
