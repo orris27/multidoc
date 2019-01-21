@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import redis.clients.jedis.Jedis;
+// import redis.clients.jedis.Jedis;
 
 import java.sql.*;
 
@@ -31,7 +31,7 @@ public class Main {
     private static Statement stmt = null;
 
 
-    private static Jedis jedis;
+//     private static Jedis jedis;
     private static HashSet<User> users = new HashSet<>();
     private static User getUser(int id){
         for (User d: users){
@@ -120,16 +120,16 @@ public class Main {
      * The appplication main method, which just listens on a port and
      * spawns handler threads.
      */
-    private static void storeRedis(String key, Object value) {
-        try {
-            jedis.set("hello","world");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+//     private static void storeRedis(String key, Object value) {
+//         try {
+//             jedis.set("hello","world");
+//         } catch (Exception e){
+//             e.printStackTrace();
+//         }
+//     }
 
     public static void main(String[] args) throws Exception {
-        jedis = new Jedis("127.0.0.1",6379);
+//         jedis = new Jedis("127.0.0.1",6379);
 
 
         initMySQL();
@@ -143,10 +143,10 @@ public class Main {
             }
         } finally {
             listener.close();
-            if (jedis != null) {
-                // close connection
-                jedis.close();
-            }
+//             if (jedis != null) {
+//                 // close connection
+//                 jedis.close();
+//             }
         }
     }
 
