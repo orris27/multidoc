@@ -159,13 +159,7 @@ public class SocketClient {
                         case "updateDocument":
                             handleUpdateDocument(data);
                             break;
-//                        case "error":
-//                            handleError(data);
-//                            break;
                     }
-//                    System.out.println("Object received = " + data.getData());
-//                    System.out.println(data.getData().a);
-//                    System.out.println(data.getData().b);
                 }
             }catch (Exception e){
                 e.printStackTrace();

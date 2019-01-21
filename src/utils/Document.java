@@ -3,6 +3,7 @@ package utils;
 import java.io.Serializable;
 
 public class Document implements Serializable {
+
     private int id;
     private static int nextId=0;
     private User creator;
@@ -14,6 +15,17 @@ public class Document implements Serializable {
         nextId++;
         this.creator=creator;
         this.title=title;
+    }
+
+    public Document(int id, User creator, String title, String content){
+        this.id = id;
+        if(nextId <= id){
+            nextId  = id + 1;
+        }
+        this.creator = creator;
+        this.title = title;
+        this.content = content;
+
     }
 
     public int getId() {
